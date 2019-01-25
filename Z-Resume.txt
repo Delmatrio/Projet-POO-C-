@@ -1,0 +1,220 @@
+=> Classes utilisées :
+1] Player : une classe qui définit le participant
+2] Game : classe qui contient la liste des participants
+3] Match : classe qui définit une partie entre deux participants
+   a) Qualif : sous-classe du « Match » qui définit une partie qualificative
+   b) Finale : sous-classe du « Match » qui définit une partie des finales
+4] Tournoi : classe qui contient les parties qualificatives
+5] Finales : classe qui contient les parties finales
+
+
+
+
+
+[1] Classe player
+public:
+player(int=0,string=" ",string=" ",int=0,int=0,int=0,int=0,int=0);
+//constructeur par defaut
+void setnom(string n){nom=n;};
+//setteur du nom
+void setprenom(string p){prenom=p;};
+//setteur du prenom
+void setdate(int,int,int);
+//setteur de la date
+int getgroup(){return group;};
+//getteur du numero du groupe
+void afficher();
+//affichage des details du joueur
+friend ostream& operator<<(ostream&out,player p);
+//surcharge de l’operateur<< pour l’affichage (affichage du nom et prénom)
+friend ofstream& operator<<(ofstream&out,player p);
+//surchargede l’operateur<< pour l’enregistrement
+void recul(){id=id-1;};
+          //décrémenter l’identifiant du participant
+void eliminer(){elimine=1;}
+//éliminer un participant
+int getelimin(){return elimine;}
+//vérifier si un participant est éliminé
+virtual ~player();
+//destructeur
+private:
+int id;//identifiant du participant
+string nom;//nom du participant
+string prenom;//prénom du participant
+int jour,mois,an;//date de naissance du participant
+int group;//groupe du participant
+int elimine;//état du participant (éliminé ou non)
+
+
+
+
+[2] Classe game
+public:
+game();   //constructeur
+void ajouter();   //ajout d’un participant
+void retirer(int);//suppression d’un participant
+void modifier(int);//modification des données d’un participant
+void eliminer(int,int,class tournoi&);
+//éliminer un participant des parties (perte du participant)
+void affichage() ; //affichage des participants
+void affichernom(int);
+//affichage des participants d’un groupe précis
+void affichernom2(int);
+//afficher le nom est le prénom d’un participant a identifiant précis
+void affichagegrp();
+//affichage des participants dans l’ordre de leurs groupes
+int random();
+//générer un entier aléatoire dans [0..7]
+voidenregistrer();
+//enregister l’objet dans un ficher
+void charger();
+//charger l’objet depuis un fichier
+void reinitialiser();
+//reinitialiser la liste des participants
+int getelim(int i){return tab[i].getelimin();}
+//vérifier si un participant d’ordre précis est éliminé
+int getplaces(){return places;}
+//retourne le nombre des participants inscris
+private:
+        player tab[32];//tableau des participants
+int alea[8];//nombre de participant de chaque groupe
+int nbelim[8];//participants éliminés de chaque groupe
+int places;//nombre de participants inscris
+
+
+
+
+[3] Classe match
+public:
+match(string=" ",float=0,int=0,int=0,string=" ");
+//constructeur
+void ajoutplaces(intpl){places_tot=places_tot+pl;};
+//ajouter des places a une partie
+void setplaces(intpl){places_tot=pl;places_res=0;};
+//setteur de nombre de places
+void setprix(floatpr){prix=pr;};
+//setteur du prix
+float getprix(){return prix;};
+//getteur du prix
+void setdate(string d){date=d;};
+//setteur de la date
+void settype(string t){type=t;};
+//setteur de type de la partie
+bool retirerplaces(int);
+//retirer des places d’une partie
+void reserver();
+//reserver des places
+void affichernom();
+//affiche le type de la partie
+void afficher();
+//affiche l’informations d’une partie
+virtual ~match(){};
+//destructeur
+protected:
+string type;          //type de la partie
+float prix;//prix de la partie
+int places_res;//places réservées dans une partie
+int places_tot;//places totales dans une partie
+string date;//date de la partie
+};
+
+
+
+a)*SOUS Classe Qualif
+
+public:
+qualif(string t=" ",float p=0,int pr=0,int pt=0,string d=" ",int           
+g=0):match(t,p,pr,pt,d){groupe=g;};
+//constructeur par defaut
+virtual ~qualif(){};
+//destructeur
+void setgrp(int g){groupe=g;};
+//setteur de groupe
+friendofstream& operator<<(ofstream&out,qualif q);
+//surchargede l’operateur << pour l’enregistrement
+private:
+int groupe;//groupe concerné par la partie qualificative
+
+
+b)*SOUS Classe Finale
+
+public:
+        finale(string t=" ",float p=0,int pr=0,int pt=0,string d=" ",int j1=0,int j2=0):match(t,p,pr,pt,d){joueur1=j1;joueur2=j2;};
+//constructeur par defaut
+virtual ~finale(){};
+//destructeur
+void setjoueur1(int a){joueur1=a;}
+//setteur de l’identifiant du premiuer joueur
+void setjoueur2(int a){joueur2=a;}
+//setteur de l’identifiant du deuxieme joueur
+int getjoueur1(){return joueur1;}
+//getteur de l’identifiant du premier joueur
+int getjoueur2(){return joueur2;}
+//getteur de l’identifiant du deuxième joueur
+friend ofstream& operator<<(ofstream&out,finale f);
+//surchargede l’operateur << pour l’enregistrement
+private:
+int joueur1;//identifiant du premier joueur
+int joueur2;//identifiant du deuxième joueur
+
+
+[4] Classe Tournoi
+public:
+tournoi();//constructeur
+void saisir();//initialisation des parties
+void afficherparties(class game);//affichage des parties
+void modifierdate(int);//modifier la date d’une partie
+void modifierprix(int);//modifier le prix d’une partie
+void modifierplaces(int);//modifier les places d’une partie
+void reserver(int);//reserver des places pour une partie
+void save();//sauvegarder dans une fichier
+void charge();//charger d’un fichier
+void elimine(){elimin=elimin+1;};
+//incrémente le nombre de joueurs éliminés
+int getelimin(){return elimin;};
+//retourne le nombre de joueurs éliminés
+virtual ~tournoi();//destructeur
+private:
+qualif tabq[8];//tableau des parties qualificatives des groupes
+int elimin;//nombre de joueurs éliminés
+
+
+[5] Classe Finales
+public:
+finales();//constructeur
+void initialiser(class game);//initialization des parties
+void consulter(class tournoi,class game);
+//afficher les parties finales
+void modifierdate(int,class tournoi);
+//modifier la date d’une partie
+void modifierprix(int,class tournoi);
+//modifier le prix d’une partie
+void modifierplaces(int,class tournoi);
+//modifier le nombre de places d’une partie
+void reserver(int,class tournoi);
+//reserver pour une partie
+void save();
+//sauvegarder dans un fichier
+void verif(class game,classtournoi);
+//passer d’une phase a une autre(ex: demi finale vers finale)
+void charge();
+//charger depuis un fichier
+virtual ~finales();
+private:
+        finale tabf[16];//tableau des parties finales
+
+
+
+
+
+
+
+===Autres fonctions ===
+void gotoxy(int,int)
+//deplacer le curseur (vers(x,y))
+void etat_jeu(int a)
+//afficher l’etat du jeu a droite de l’ecran
+void password(string&passwd)
+//charger le mod de passe depuis un fichier
+void changermdp()
+//changer le mot de passe et l’enregistrer dans un fichier

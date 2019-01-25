@@ -1,0 +1,75 @@
+# depslib dependency file v1.0
+1493369605 source:e:\new folder\gtt\src\tournoi.cpp
+	"match.h"
+	"tournoi.h"
+	"game.h"
+	<time.h>
+	<windows.h>
+	<fstream>
+	<string>
+	<iostream>
+
+1493369605 e:\new folder\gtt\include\match.h
+	<string>
+	<iostream>
+
+1493369605 e:\new folder\gtt\include\tournoi.h
+	"game.h"
+	"match.h"
+	<iostream>
+
+1493369605 e:\new folder\gtt\include\game.h
+	"player.h"
+	"tournoi.h"
+	"match.h"
+
+1493380157 e:\new folder\gtt\include\player.h
+	<string>
+
+1493382656 source:e:\new folder\gtt\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<windows.h>
+	"game.h"
+	"player.h"
+	"match.h"
+	"tournoi.h"
+	"finales.h"
+
+1493369605 e:\new folder\gtt\include\finales.h
+	<windows.h>
+	"match.h"
+
+1493387235 source:e:\new folder\gtt\src\game.cpp
+	"game.h"
+	"player.h"
+	<fstream>
+	<string>
+	<windows.h>
+	<time.h>
+	<cstdlib>
+	<iostream>
+
+1493369605 source:e:\new folder\gtt\src\match.cpp
+	"match.h"
+	<string>
+	<iostream>
+	<fstream>
+
+1493382279 source:e:\new folder\gtt\src\player.cpp
+	"player.h"
+	<string>
+	<fstream>
+	<cstdlib>
+	<iostream>
+
+1493370049 source:e:\new folder\gtt\src\finales.cpp
+	"match.h"
+	"finales.h"
+	"game.h"
+	"tournoi.h"
+	<iostream>
+	<windows.h>
+	<fstream>
+
